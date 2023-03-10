@@ -34,7 +34,7 @@ public:
 
 	~atleta()
 	{
-		std::cout << "Atleta: " << Nombre << " Destruido.." << "\n";
+		std::cout << "Atleta: " << Nombre << " Destruido.." << "\n\n";
 	}
 	//Funciones
 
@@ -42,8 +42,7 @@ public:
 	{
 		std::cout << "Energia: " << Energia << "\n";
 		std::cout << "Fuerza: " << Fuerza << "\n";
-		std::cout << "Velocidad: " << Velocidad << "\n";
-		std::cout << "Nombre: " << Nombre << "\n" << "\n";
+		
 	}
 
 	float getVelocidad()
