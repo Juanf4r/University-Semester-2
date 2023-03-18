@@ -19,12 +19,13 @@ y destructor*/
 
 class Pokemon
 {
+public:
+
 	int Pts_vida;
 	int Fuerza_ataque;
-	char Tipo_Pokemon[20];
-	char Nombre[20];
+	char Tipo_Pokemon[15];
+	char Nombre[15];
 
-public:
 	//Constructor Generico
 
 	Pokemon()
