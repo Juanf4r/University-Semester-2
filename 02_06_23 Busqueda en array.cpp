@@ -4,8 +4,24 @@
 #include<cstdlib>
 
 int array[9] = { 10,32,21,5,49,31,10,40,1 };
-int N = 0, i = 0;
+int N = 0, i = 0, aux;
 char seguir = 's';
+
+void ordenamiento()
+{
+	for (int i = 0; i < 9; i++)
+	{
+		for (int j = 0; j < 9; j++)
+		{
+			if (array[j] > array[j + 1])
+			{
+				aux = array[j];
+				array[j] = array[j + 1];
+				array[j + 1] = aux;
+			}
+		}
+	}
+}
 
 void algoritmo()
 {
@@ -32,6 +48,8 @@ int main()
 	do
 	{
 		std::cout << "Digite un numero a buscar: "; std::cin >> N;
+
+		ordenamiento();
 		algoritmo();
 		mostrarResultado();
 
