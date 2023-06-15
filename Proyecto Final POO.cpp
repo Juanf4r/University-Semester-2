@@ -7,9 +7,9 @@ implementar Busqueda Secuencial y Busqueda Binaria. */
 #include<locale.h>
 
 std::string seguir = "S", seguir1 = "S";
-int elegir = 0, elegir1 = 0, tamano = 100, maximo = 100, dato = 0;
+int elegir = 0, elegir1 = 0, ordenar = 0, tamano = 100, maximo = 100, dato = 0;
 int arreglo[100];
-char band =  'F';
+char band = 'F';
 
 
 void inicio()
@@ -35,31 +35,118 @@ void inicio()
 	}
 }
 
+void coctailSort()
+{
+	int n, c = 0;
+	n = tamano;
+
+	do {
+		for (int i = 0; i < n - 1; i++)
+		{
+			if (arreglo[i] > arreglo[i + 1])
+			{
+				arreglo[i] = arreglo[i] + arreglo[i + 1];
+				arreglo[i + 1] = arreglo[i] - arreglo[i + 1];
+				arreglo[i] = arreglo[i] - arreglo[i + 1];
+			}
+		}
+		n = n - 1;
+
+		for (int i = tamano - 1, c = 0; i >= c; i--)
+		{
+			if (arreglo[i] < arreglo[i - 1])
+			{
+				arreglo[i] = arreglo[i] + arreglo[i - 1];
+				arreglo[i - 1] = arreglo[i] - arreglo[i - 1];
+				arreglo[i] = arreglo[i] - arreglo[i - 1];
+			}
+		}
+		c = c + 1;
+	} while (n != 0 && c != 0);
+}
+
+void countingSort()
+{
+	int output[100];
+	int count[100];
+	int max = arreglo[0];
+
+	for (int i = 1; i < tamano; i++) 
+	{
+		if (arreglo[i] > max)
+		{
+			max = arreglo[i];
+		}
+	}
+
+	for (int i = 0; i <= max; ++i) 
+	{
+		count[i] = 0;
+	}
+
+	for (int i = 0; i < tamano; i++) 
+	{
+		count[arreglo[i]]++;
+	}
+
+	for (int i = 1; i <= max; i++) 
+	{
+		count[i] += count[i - 1];
+	}
+
+	for (int i = tamano - 1; i >= 0; i--) 
+	{
+		output[count[arreglo[i]] - 1] = arreglo[i];
+		count[arreglo[i]]--;
+	}
+
+	for (int i = 0; i < tamano; i++) 
+	{
+		arreglo[i] = output[i];
+	}
+}
+
+void shellSort()
+{
+	for (int interval = tamano / 2; interval > 0; interval /= 2) 
+	{
+		for (int i = interval; i < tamano; i += 1) 
+		{
+			int temp = arreglo[i];
+			int j;
+
+			for (j = i; j >= interval && arreglo[j - interval] > temp; j -= interval) 
+			{
+				arreglo[j] = arreglo[j - interval];
+			}
+			arreglo[j] = temp;
+		}
+	}
+}
+
 void ordenarArreglos()
 {
 	system("CLS");
-	std::cout << "|----------------------------------------|\n";
-	std::cout << "|----------1.Busqueda Secuencial---------|\n";
-	std::cout << "|-----------2.Busqueda Binaria-----------|\n";
-	std::cout << "|-----------3.Busqueda Binaria-----------|\n";
-	std::cout << "|----------------------------------------|\n";
+	std::cout << "|--------------------------------------------|\n";
+	std::cout << "|----------1.Ordenamiento de Coctel----------|\n";
+	std::cout << "|----------2.Ordenamiento de Conteo----------|\n";
+	std::cout << "|---------3.Ordenamiento de Caparazon--------|\n";
+	std::cout << "|--------------------------------------------|\n";
 	std::cout << "\nElige el metodo a usar para ordenar el arreglo:\n";
-	std::cin >> elegir1;
+	std::cin >> ordenar;
 
-	while (elegir1 != 1 and elegir1 != 2 and elegir1 != 3)
+	while (ordenar != 1 and ordenar != 2 and ordenar != 3)
 	{
-		std::cout << "Error. Digite 1,2 o 3 para seleccionar metodo: "; std::cin >> elegir1;
+		std::cout << "Error. Digite 1,2 o 3 para seleccionar metodo: "; std::cin >> ordenar;
 	}
 
-	switch (elegir1)
+	switch (ordenar)
 	{
-	case 1:	//
+	case 1:	coctailSort(); break;
 
-	case 2:	//
+	case 2:	countingSort(); break;
 
-	case 3: //
-
-	default: std::cout << "Digite un 1,2 o 3 para elegir: "; std::cin >> elegir1; ordenarArreglos; break;
+	case 3: shellSort(); break;
 	}
 }
 
@@ -69,7 +156,7 @@ void busquedaSecuencial()
 
 	int i = 0;
 
-	while ((band == 'F') && (i < tamano +1))
+	while ((band == 'F') && (i < tamano + 1))
 	{
 		if (arreglo[i] == dato)
 		{
@@ -87,7 +174,8 @@ void busquedaSecuencial()
 		std::cout << "El numero ha sido encontrado en la pos: " << i - 1 << "\n\n";
 	}
 
-	std::cout << "Desea ordenar el arreglo? S o N"; std::cin >> seguir1;
+	std::cout << "Desea ordenar el arreglo? S o N: "; std::cin >> seguir1;
+
 	while (seguir1 != "S" and seguir1 != "s" and seguir1 != "n" and seguir1 != "N")
 	{
 		std::cout << "ERROR. Digite S o N para una opcion valida: "; std::cin >> seguir1;
@@ -97,7 +185,7 @@ void busquedaSecuencial()
 	{
 		ordenarArreglos();
 	}
-	else
+	else if (seguir1 == "N" or "n")
 	{
 		//Salir de la función
 	}
@@ -106,6 +194,8 @@ void busquedaSecuencial()
 void busquedaBinaria()
 {
 	int inf = 0, sup = tamano, mitad = 0;
+
+	std::cout << "Digite el numero entero a buscar: "; std::cin >> dato;
 
 	while (inf <= sup)
 	{
@@ -147,7 +237,7 @@ void busquedaBinaria()
 	{
 		ordenarArreglos();
 	}
-	else
+	else if(seguir1 == "N" or "n")
 	{
 		//Salir de la función
 	}
@@ -157,11 +247,9 @@ void escogerBusqueda()
 {
 	switch (elegir)
 	{
-	case 1:	busquedaSecuencial();
+	case 1:	busquedaSecuencial(); break;
 
-	case 2:	busquedaBinaria();
-
-	default: std::cout << "Digite un 1 o 2 para elegir: "; std::cin >> elegir; escogerBusqueda(); break;
+	case 2:	busquedaBinaria(); break;
 	}
 }
 
@@ -191,7 +279,7 @@ int main()
 		escogerBusqueda();
 		imprimirDatos();
 
-		std::cout << "Desea buscar otro numero? Digite S o N\n";
+		std::cout << "\n\nDesea buscar otro numero? Digite S o N\n";
 		std::cin >> seguir;
 
 		while (seguir != "S" and seguir != "s" and seguir != "n" and seguir != "N")
